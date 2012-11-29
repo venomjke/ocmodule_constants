@@ -75,14 +75,12 @@ class ControllerModuleConstants extends Controller{
 
 		$itemId = $this->request->get['itemId'];
 		$item = $this->model_constants->getItem($itemId);
+		if(empty($item)) $this->redirect($this->url->link('module/constants','token='.$this->session->data['token'],'SSL'));
 
 		if($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validateEdit($item)){
 			$this->model_constants->editItem($itemId,$this->request->post);
 			$this->redirect($this->url->link('module/constants','token='.$this->session->data['token'],'SSL'));
 		}		
-
-		if(empty($item)) $this->redirect($this->url->link('module/constants','token='.$this->session->data['token'],'SSL'));
-
 
 		$this->set_form_data('title',$item);
 		$this->set_form_data('alias',$item);
